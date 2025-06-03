@@ -27,7 +27,8 @@ const prezzoFinale = document.getElementById('prezzo-finale');
 
 // Funzione per formattare il prezzo con 2 decimali
 function formatoPrezzo(prezzo) {
-    return prezzo.toFixed(2);
+    // Ritorna solo il numero intero senza decimali
+    return Math.floor(prezzo);
 }
 
 // Funzione per verificare se un codice promozionale è valido
@@ -103,10 +104,11 @@ form.addEventListener('submit', function (event) {
 codicePromoInput.addEventListener('input', function () {
     const codicePromo = codicePromoInput.value.trim();
 
-    // Se il campo è vuoto, resetta il messaggio
+    // Se il campo è vuoto, resetta il messaggio e lo stile
     if (!codicePromo) {
         promoMessage.textContent = '';
         promoMessage.className = 'form-text';
+        codicePromoInput.classList.remove('is-valid', 'is-invalid');
         return;
     }
 
@@ -114,13 +116,17 @@ codicePromoInput.addEventListener('input', function () {
     if (isCodicPromoValido(codicePromo)) {
         promoMessage.textContent = 'Codice promozionale valido!';
         promoMessage.className = 'form-text valid-promo';
+        codicePromoInput.classList.add('is-valid');
+        codicePromoInput.classList.remove('is-invalid');
     } else {
         promoMessage.textContent = 'Codice promozionale non valido.';
         promoMessage.className = 'form-text invalid-promo';
+        codicePromoInput.classList.add('is-invalid');
+        codicePromoInput.classList.remove('is-valid');
     }
 });
 
-// Ricalcola il prezzo quando cambia il tipo di lavoro
-tipoLavoroSelect.addEventListener('change', calcolaPrezzo);
+// Rimosso l'event listener sulla select
+// tipoLavoroSelect.addEventListener('change', calcolaPrezzo);
 
 // oreLavoroInput.addEventListener('input', calcolaPrezzo);
